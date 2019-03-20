@@ -1,14 +1,17 @@
-const path = require('path');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 module.exports = {
   mode: 'production',
   entry: {
+    // main: './src/app.js',
     main: './src/sheetwrapper.js',
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: '[name].js',
+    library: 'SheetWrapper',
+    libraryExport: 'SheetWrapper',
+    libraryTarget: 'umd',
+    globalObject: 'this',
+    // umdNamedDefine: true,
   },
   module: {
     rules: [

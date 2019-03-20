@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /* eslint-disable no-underscore-dangle */
 
 import findIndex from 'lodash/findIndex';
@@ -5,7 +6,7 @@ import findIndex from 'lodash/findIndex';
 /**
  * Provide more convient work with specified sheet
  */
-export default class SheetWrapper {
+export class SheetWrapper {
   constructor(sheetConfig = {}, spreadsheetId, spreadsheetApi) {
     const {
       sheetName,
