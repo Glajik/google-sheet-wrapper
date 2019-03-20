@@ -4,7 +4,7 @@ module.exports = {
   mode: 'production',
   entry: {
     // main: './src/app.js',
-    main: './src/sheetwrapper.js',
+    main: './src/sheet-wrapper.js',
   },
   output: {
     library: 'SheetWrapper',

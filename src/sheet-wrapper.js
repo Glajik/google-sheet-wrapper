@@ -7,7 +7,7 @@ import findIndex from 'lodash/findIndex';
  * Provide more convient work with specified sheet
  */
 export class SheetWrapper {
-  constructor(sheetConfig = {}, spreadsheetId, spreadsheetApi) {
+  constructor(spreadsheetApi, spreadsheetId, sheetConfig = {}) {
     const {
       sheetName,
       numHeaders,
