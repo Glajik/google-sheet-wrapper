@@ -1,3 +1,5 @@
+// import * as sinon from 'sinon';
+
 /**
  * Class for moking Sheet object
  */

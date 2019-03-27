@@ -1,34 +1,35 @@
 import { expect } from 'chai';
-// import * as sinon from 'sinon';
 
-import { Sheet, Spreadsheet } from './SpreadsheetApp'; // eslint-disable-line
-import SpreadsheetApp from './SpreadsheetApp'; // eslint-disable-line
 
-// import after fake SpreadsheetApp
-import SheetWrapper from '../src/sheetwrapper'; // eslint-disable-line
+// is important to create stub before import SheetWrapper
+
+// eslint-disable-next-line no-unused-vars
+import SpreadsheetApp from './SpreadsheetApp';
+
+// eslint-disable-next-line import/first
+import { SheetWrapper } from '../src/SheetWrapper';
 
 describe('Test', () => {
   before(() => {
   });
 
-  it('Should init default', () => {
-    const wrapped = new SheetWrapper({}, undefined, SpreadsheetApp);
+  it('Should init', () => {
+    const wrapped = new SheetWrapper();
     expect(wrapped).is.exist; // eslint-disable-line
   });
 
-  it('Should custom init', () => {
-    // eslint-disable-next-line
-    const spreadsheetId = '12345';
-
-    const cc = {
+  it('test getter SheetWrapper.values', () => {
+    const options = {
       sheetName: 'TestName',
       numHeaders: 1,
-      fields: [
-        'A',
-        'B',
-        'C',
-      ],
+      fields: 'A, B, C',
     };
+
+    const values = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
 
     // const fakeSheet = new Sheet();
     // sinon.stub(fakeSheet, 'getName').returns('TestName1');
@@ -39,11 +40,7 @@ describe('Test', () => {
     //   openById: id => new Spreadsheet(id),
     // };
 
-    const wrapped = new SheetWrapper(cc, spreadsheetId, SpreadsheetApp);
-
-    expect(wrapped.sheetName).is.equal(cc.sheetName);
-
-    const sameSheet = SpreadsheetApp.openById(cc.spreadsheetId).getSheetByName(cc.sheetName);
-    expect(wrapped.sheet, 'wrapped sheet').deep.equal(sameSheet, 'sameSheet');
+    const sw = new SheetWrapper(options);
+    console.log(sw.values);
   });
 });

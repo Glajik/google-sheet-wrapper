@@ -3,8 +3,7 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: {
-    // main: './src/app.js',
-    main: './src/sheet-wrapper.js',
+    bundle: './src/SheetWrapper.js',
   },
   output: {
     library: 'SheetWrapper',
