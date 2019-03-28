@@ -168,7 +168,7 @@ export class SheetWrapper extends SheetHelper {
    * @param {Object} rowData rowData object
    */
   updateRowObj(rowId, rowData) {
-    const numColumns = super.fields.length;
+    const numColumns = this.fields.length;
     const range = this.sheet.getRange(rowId, 1, 1, numColumns);
     const fields = Object.keys(rowData);
 
@@ -189,36 +189,39 @@ export class SheetWrapper extends SheetHelper {
    */
   clearSheet() {
     const { sheet } = this;
-    const row = super.numHeaders + 1;
+    const row = this.numHeaders + 1;
     const column = 1;
     const numRows = sheet.getLastRow() - row + 1;
     if (numRows < 1) {
       return;
     }
-    const numColumns = super.fields.length;
+    const numColumns = this.fields.length;
     sheet.getRange(row, column, numRows, numColumns).clearContent();
 
     this.reset();
+  }
+
+  get headerValues() {
+    return this.values.slice(0, this.numHeaders);
   }
 
   /**
    * Update all sheet except header rows
    * @param {Array} rowDataColl array of rowData objects
    */
-  updateSheet(rowDataColl) {
-    const values = super.toRowValuesColl(rowDataColl);
+  updateSheet(rowDataColl, headerValues = this.headerValues) {
+    const values = super.toRowValuesColl(rowDataColl, headerValues);
 
     // update sheet
-    const row = super.numHeaders + 1;
+    const row = 1;
     const column = 1;
-    const numColumns = super.fields.length;
-    const numRows = rowDataColl.length;
-    this.sheet
-      .getRange(row, column, numRows, numColumns)
-      .clearContent()
-      .setValues(values);
+    const numColumns = this.fields.length;
+    const numRows = values.length;
+    this.sheet.getDataRange().clearContent();
+    this.sheet.getRange(row, column, numRows, numColumns).setValues(values);
 
     this.memo.dataColl = super.clone(rowDataColl);
+    this.memo.values = super.clone(values);
     // eslint-disable-next-line no-undef
     SpreadsheetApp.flush();
   }
@@ -245,7 +248,7 @@ export class SheetWrapper extends SheetHelper {
 
   /** Show all hidden rows */
   showAll() {
-    const length = this.sheet.getLastRow() - super.firstRow;
-    this.sheet.showRows(super.firstRow, length);
+    const length = this.sheet.getLastRow() - this.firstRow;
+    this.sheet.showRows(this.firstRow, length);
   }
 }

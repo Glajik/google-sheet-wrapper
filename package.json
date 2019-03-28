@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Provide more convient work with specified sheet",
-  "main": "dist/SheetWrapper.js",
+  "main": "src/SheetWrapper.js",
   "scripts": {
     "lint": "eslint src test --fix",
     "test": "mocha --require @babel/register",
