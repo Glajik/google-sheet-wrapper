@@ -41,6 +41,6 @@ describe('Test', () => {
     // };
 
     const sw = new SheetWrapper(options);
-    console.log(sw.values);
+    // console.log(sw.values);
   });
 });

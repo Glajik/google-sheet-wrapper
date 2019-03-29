@@ -8,13 +8,11 @@ import { SheetHelper } from '@airbag/sheet-helper';
  */
 // eslint-disable-next-line import/prefer-default-export
 export class SheetWrapper extends SheetHelper {
+  // eslint-disable-next-line no-useless-constructor
   constructor(options) {
     super(options);
-    this.memo = {
-      values: undefined,
-      dataColl: undefined,
-    };
   }
+
 
   // eslint-disable-next-line class-methods-use-this
   get spreadsheet() {
@@ -27,10 +25,8 @@ export class SheetWrapper extends SheetHelper {
   }
 
   get values() {
-    if (this.memo.values === undefined) {
-      this.memo.values = this.sheet.getDataRange().getValues();
-    }
-    return this.memo.values;
+    const values = this.sheet.getDataRange().getValues();
+    return values;
   }
 
   /**
@@ -38,20 +34,7 @@ export class SheetWrapper extends SheetHelper {
    * @returns array of rowData objects
    */
   get dataColl() {
-    if (this.memo.dataColl === undefined) {
-      this.memo.dataColl = this.toRowDataColl(this.values);
-    }
-    return this.memo.dataColl;
-  }
-
-  /**
-   * Next calling this.sheetData get data directly from sheet
-   */
-  reset() {
-    this.memo = {
-      values: undefined,
-      dataColl: undefined,
-    };
+    return this.toRowDataColl(this.values);
   }
 
   /**
@@ -81,17 +64,6 @@ export class SheetWrapper extends SheetHelper {
    */
   getSelectedRow() {
     return this.sheet.getActiveCell().getRowIndex();
-  }
-
-  /**
-   * Insert row between header rows and first data row.
-   * (universal method - both for rowData object or array)
-   */
-  insertRow(data) {
-    this.sheet.insertRowBefore(this.firstRow);
-    this.resetSheetDataCache();
-    this.updateRow(this.firstRow, data);
-    return this.firstRow;
   }
 
   /**
@@ -131,6 +103,16 @@ export class SheetWrapper extends SheetHelper {
   }
 
   /**
+   * Insert row between header rows and first data row.
+   * (universal method - both for rowData object or array)
+   */
+  insertRow(data) {
+    this.sheet.insertRowBefore(this.firstRow);
+    this.updateRow(this.firstRow, data);
+    return this.firstRow;
+  }
+
+  /**
    * Update specified row.
    * (universal method - both for rowData object or array)
    * In case rowData object - you can use part of whole row data
@@ -154,7 +136,7 @@ export class SheetWrapper extends SheetHelper {
    * @param {Array} values list of values
    */
   updateRowArr(rowId, values) {
-    const range = this.sheet.getRange(rowId, 1, 1, values.length);
+    const range = this.getRowRange(rowId);
     range.setFontWeight(null);
     range.setValues([values]);
     return range;
@@ -168,8 +150,7 @@ export class SheetWrapper extends SheetHelper {
    * @param {Object} rowData rowData object
    */
   updateRowObj(rowId, rowData) {
-    const numColumns = this.fields.length;
-    const range = this.sheet.getRange(rowId, 1, 1, numColumns);
+    const range = this.getRowRange(rowId);
     const fields = Object.keys(rowData);
 
     // update by each field
@@ -197,8 +178,6 @@ export class SheetWrapper extends SheetHelper {
     }
     const numColumns = this.fields.length;
     sheet.getRange(row, column, numRows, numColumns).clearContent();
-
-    this.reset();
   }
 
   get headerValues() {
@@ -209,8 +188,8 @@ export class SheetWrapper extends SheetHelper {
    * Update all sheet except header rows
    * @param {Array} rowDataColl array of rowData objects
    */
-  updateSheet(rowDataColl, headerValues = this.headerValues) {
-    const values = super.toRowValuesColl(rowDataColl, headerValues);
+  updateSheet(rowDataColl) {
+    const values = super.toRowValuesColl(rowDataColl, this.headerValues);
 
     // update sheet
     const row = 1;
@@ -219,11 +198,6 @@ export class SheetWrapper extends SheetHelper {
     const numRows = values.length;
     this.sheet.getDataRange().clearContent();
     this.sheet.getRange(row, column, numRows, numColumns).setValues(values);
-
-    this.memo.dataColl = super.clone(rowDataColl);
-    this.memo.values = super.clone(values);
-    // eslint-disable-next-line no-undef
-    SpreadsheetApp.flush();
   }
 
   /**
@@ -250,5 +224,14 @@ export class SheetWrapper extends SheetHelper {
   showAll() {
     const length = this.sheet.getLastRow() - this.firstRow;
     this.sheet.showRows(this.firstRow, length);
+  }
+
+  /**
+   * find column id by name
+   * @return index of column started from 1
+   * @param {*} field field name
+   */
+  findColumnId(field) {
+    return super.findColumnId(field);
   }
 }
