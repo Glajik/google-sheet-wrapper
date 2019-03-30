@@ -1,5 +1,5 @@
 {
-  "name": "@airbag/sheet-wrapper",
+  "name": "@glajik/sheet-wrapper",
   "version": "1.0.0",
   "private": true,
   "description": "Provide more convient work with specified sheet",
@@ -8,7 +8,7 @@
     "lint": "eslint src test --fix",
     "test": "mocha --require @babel/register",
     "build": "NODE_ENV=production babel src --out-dir dist",
-    "relink":"npm link @airbag/sheet-helper"
+    "relink": "npm link @glajik/sheet-helper"
   },
   "author": "Viacheslav Glazhevskyi",
   "license": "ISC",
@@ -32,8 +32,8 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
-    "@airbag/sheet-helper": "^1.0.0",
     "@babel/polyfill": "^7.2.5",
+    "@glajik/sheet-helper": "file:usr/lib/node_modules/@glajik/sheet-helper",
     "@types/google-apps-script": "0.0.41",
     "lodash": "^4.17.11"
   }

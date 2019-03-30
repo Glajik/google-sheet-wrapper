@@ -1,4 +1,4 @@
-import { SheetHelper } from '@airbag/sheet-helper';
+import SheetHelper from '@glajik/sheet-helper';
 
 /**
  * Provide more convient work with specified sheet
@@ -6,8 +6,7 @@ import { SheetHelper } from '@airbag/sheet-helper';
  * 1. Write tests
  * 2. method updateSheet() maybe isn't work as expected
  */
-// eslint-disable-next-line import/prefer-default-export
-export class SheetWrapper extends SheetHelper {
+export default class SheetWrapper extends SheetHelper {
   // eslint-disable-next-line no-useless-constructor
   constructor(options) {
     super(options);

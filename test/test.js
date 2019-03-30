@@ -7,7 +7,7 @@ import { expect } from 'chai';
 import SpreadsheetApp from './SpreadsheetApp';
 
 // eslint-disable-next-line import/first
-import { SheetWrapper } from '../src/SheetWrapper';
+import SheetWrapper from '../src/SheetWrapper';
 
 describe('Test', () => {
   before(() => {
