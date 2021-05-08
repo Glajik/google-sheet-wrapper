@@ -36,6 +36,6 @@
     "@babel/polyfill": "^7.2.5",
     "@glajik/sheet-helper": "git+https://github.com/Glajik/google-sheet-helper.git",
     "@types/google-apps-script": "0.0.41",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.21"
   }
 }
